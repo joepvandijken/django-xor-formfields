@@ -1,7 +1,4 @@
-try:
-    from io import StringIO
-except ImportError:
-    from StringIO import StringIO
+from io import BytesIO
 import posixpath
 import os
 
@@ -139,7 +136,8 @@ class FileOrURLField(MutuallyExclusiveValueField):
                 raise ValidationError(self.url_fetch_error)
             if not (200 <= resp.status_code < 400):
                 raise ValidationError(self.url_fetch_error)
-            io = StringIO(unicode(resp.content))
+            print resp.content.__class__.__name__
+            io = BytesIO(resp.content)
             io.seek(0)
             io.seek(os.SEEK_END)
             size = io.tell()
