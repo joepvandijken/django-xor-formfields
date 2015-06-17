@@ -127,6 +127,9 @@ class FileOrURLField(MutuallyExclusiveValueField):
     def to_python(self, value):
         value = super(FileOrURLField, self).to_python(value)
 
+        if value is None:
+            return None
+
         if self.to == None:
             return value
         elif self.to == 'file' and not isinstance(value, UploadedFile):
